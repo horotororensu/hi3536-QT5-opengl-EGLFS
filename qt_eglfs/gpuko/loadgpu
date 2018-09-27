@@ -1,0 +1,85 @@
+#!/bin/sh
+# Useage: ./load3536 [ -r|-i|-a ] [ sensor ]
+#         -r : rmmod all modules
+#         -i : insmod all modules
+#    default : rmmod all moules and then insmod them
+
+report_error()
+{
+    echo "******* Error: There's something wrong, please check! *****"
+    exit 1
+}
+
+insert_gpu()
+{
+	himm 0x12120154 0x3
+	himm 0x12120154 0x2
+    insmod kds.ko
+	insmod mali_kbase.ko
+	insmod hi_dbe.ko
+    echo "insert gpu"
+}
+
+remove_gpu()
+{
+	rmmod hi_dbe.ko
+    rmmod mali_kbase.ko
+    rmmod kds.ko
+    echo "remove gpu"
+}
+
+
+insert_ko()
+{
+    insert_gpu
+}
+
+remove_ko()
+{
+    remove_gpu
+}
+
+load_usage()
+{
+    echo "Usage:  ./loadgpu [-option]"
+    echo "options:"
+    echo "    -i                       insert modules"
+    echo "    -r                       remove modules"
+    echo "    -a                       remove modules first, then insert modules"
+    echo "    -h                       help information"
+}
+
+
+######################parse arg###################################
+b_arg_insmod=0
+b_arg_remove=0
+
+for arg in $@
+do
+    case $arg in
+        "-i")
+            b_arg_insmod=1;
+            ;;
+        "-r")
+            b_arg_remove=1;
+            ;;
+        "-a") 
+            b_arg_insmod=1;
+            b_arg_remove=1;
+            ;;
+        "-h")
+            load_usage;
+            ;;
+    esac
+done
+#######################parse arg end########################
+
+
+#######################Action###############################
+if [ $b_arg_remove -eq 1 ]; then
+    remove_ko;
+fi
+if [ $b_arg_insmod -eq 1 ]; then
+    insert_ko;
+fi
+

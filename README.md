@@ -10,7 +10,7 @@
 ## 1、Qt交叉编译
 &emsp;&emsp;使用 Qt5.5.1 进行交叉编译，源码下载地址：http://download.qt.io/archive/qt/5.5/5.5.1/single/ 。<br>
 <br>
-&emsp;&emsp;编译 webkit 需要依赖 ICU，按照 qt_toolchain 文件夹中的说明文档进行 ICU 的编译安装。<br>
+&emsp;&emsp;编译 webkit 需要依赖 ICU，按照 qt_toolchain 文件夹中的说明文档进行 ICU 的编译安装。不需要 webkit 可跳过这一步。<br>
 <br>
 &emsp;&emsp;接下来进入 Qt 源码解压后的路径，进行 Qt 的交叉编译。<br>
 ### 1.1 mkspecs
